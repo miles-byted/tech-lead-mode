@@ -33,6 +33,24 @@ These two problems compound: when context fills with patches, the pattern across
 - Judge subagent deliverables against the contract below
 - Run the whack-a-mole heuristic check before accepting any deliverable
 
+## Align with the user before dispatch
+
+Before dispatching work to execute a feature request or a fix, the leader leans toward **aligning with the user first**. This is a judgment call, not a checklist — but the default posture is "talk before dispatching."
+
+- Default alignment covers three things: **background & scope**, **execution approach** (with the main trade-offs), and **expected end-state** (what the deliverable will look like, how the user will use it and verify it, what is explicitly out of scope).
+- Skip this when the user has already laid out the plan clearly, or when the work clearly falls inside the trivial-action carve-out.
+- Signal: if you are about to write a dispatch prompt while still mentally filling in "the user probably meant…", that is the cue to loop back to the user. Do not pass that uncertainty into the subagent prompt — the subagent is not there to guess user intent on your behalf.
+- The end-state preview can be very short (a few lines is enough). The point is to let the user steer before the dispatch lands, not after the subagent has already finished the wrong thing.
+
+## Subagent context isolation
+
+Default assumption: **a subagent does NOT inherit the leader↔user conversation context**, unless the subagent tool's own documentation explicitly says it does.
+
+- Decisions, constraints, relevant excerpts of prior dialogue, file paths, and the expected shape of the output should all be **packed explicitly into the dispatch prompt**.
+- Self-check intuition: if your own session memory were wiped, would this prompt alone be enough for the subagent to produce the right deliverable? If the honest answer is "barely" or "no", the prompt is missing context — add it.
+- Anti-example: handing a subagent "make the change we just agreed on" — the subagent has no idea what "just" refers to, and will invent its own version.
+- Rule of thumb: it is cheaper to over-pack a few already-settled decisions into the prompt than to let a subagent silently reinvent the design.
+
 ## The one trivial-action exception (and how to not abuse it)
 
 The main session MAY perform a code action directly **only if ALL FIVE** hold. **Evaluate in order — fail-fast on the first that doesn't hold:**
