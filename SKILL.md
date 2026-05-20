@@ -42,6 +42,20 @@ Before dispatching work to execute a feature request or a fix, the leader leans 
 - Signal: if you are about to write a dispatch prompt while still mentally filling in "the user probably meant…", that is the cue to loop back to the user. Do not pass that uncertainty into the subagent prompt — the subagent is not there to guess user intent on your behalf.
 - The end-state preview can be very short (a few lines is enough). The point is to let the user steer before the dispatch lands, not after the subagent has already finished the wrong thing.
 
+## Distinguish short-term vs long-term solutions
+
+Before dispatching, the leader MUST explicitly classify the approach:
+
+- **Short-term (tactical):** Fixes the immediate symptom. Acceptable when: deadline pressure is real, the blast radius is contained, and the debt is recorded.
+- **Long-term (structural):** Addresses root cause or establishes a proper abstraction. Required when: the same class of problem has recurred, the fix would touch shared infrastructure, or a tactical fix would make future structural work harder.
+
+**The leader's obligation:**
+1. State which horizon is being chosen and why — in the user-facing summary, not just internally.
+2. If choosing short-term, declare the residual debt and the conditions under which the long-term fix becomes necessary.
+3. If the user requests a quick fix but the leader judges that a structural fix is comparable in cost, surface the trade-off: "short-term takes ~X, long-term takes ~Y and prevents Z recurrence — which do you prefer?"
+
+**Anti-pattern:** silently choosing short-term under the guise of "simpler" without informing the user that debt is being incurred. The user deserves to make that trade-off consciously.
+
 ## Subagent context isolation
 
 Default assumption: **a subagent does NOT inherit the leader↔user conversation context**, unless the subagent tool's own documentation explicitly says it does.
