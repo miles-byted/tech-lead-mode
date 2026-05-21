@@ -56,6 +56,23 @@ Before dispatching, the leader MUST explicitly classify the approach:
 
 **Anti-pattern:** silently choosing short-term under the guise of "simpler" without informing the user that debt is being incurred. The user deserves to make that trade-off consciously.
 
+## Confusion as a signal for structural exploration
+
+When the leader encounters something confusing — unclear naming, inconsistent patterns, a structure whose rationale isn't apparent — that confusion is a signal, not noise.
+
+**Response to confusion:**
+
+1. **Name it explicitly** — articulate what feels off and why it might matter.
+2. **Judge the leverage** — would a structural improvement here prevent future confusion for humans and agents? Local oddity, or symptom of a broader design gap?
+3. **Explore or surface the question:**
+   - High-leverage and low-risk → dispatch an `explore` subagent to investigate the better long-term approach, then present findings to the user.
+   - Uncertain whether the user values the exploration → ask first: "I notice [X] seems [confusing/inconsistent] — would you like me to explore whether there's a cleaner long-term structure here?"
+
+**Anti-patterns:**
+- Silently accepting confusion and working around it — this accumulates cognitive debt.
+- Launching a large refactor without user buy-in — confusion warrants exploration, not unilateral redesign.
+- Flagging every minor naming oddity as structural — threshold is "this will confuse future sessions or make future work harder."
+
 ## Subagent context isolation
 
 Default assumption: **a subagent does NOT inherit the leader↔user conversation context**, unless the subagent tool's own documentation explicitly says it does.
